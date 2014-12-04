@@ -1,0 +1,46 @@
+<% if @view_in_config && @erb_code %>
+  <%= render inline: ERB.new(@erb_code).result(binding) %>
+  
+<% else %>
+<div id="main_body">
+<h4><%=@title %></h4>
+
+<p>
+  <b><%= t('Create Date') %></b>
+  <%= (@definition.created_at + H_FROM_GMT.hours).strftime("%Y/%m/%d") %>
+</p>
+<p>
+  <b><%= t('Name') %></b>
+  <%= @definition.name %>
+</p>
+<p>
+  <b><%= t('Active') %></b>
+  <%= @definition.active ? t('Yes') : t('No') %>
+</p>
+<p>
+  <b><%= t('Brief Note') %></b>
+  <%= @definition.brief_note %>
+</p>
+<p>
+  <b><%= t('Last Updated By') %></b>
+  <%= @definition.last_updated_by.name if @definition.last_updated_by_id.present? %>
+</p>
+<b><%=t('Sub Definitions')%></b>
+<p>
+  <% @definition.sub_definitions.each do |t| %>
+    <li><%=(t.created_at + + H_FROM_GMT.hours).strftime("%Y/%m/%d")%>, &nbsp;<%=t.name %>,&nbsp;<%=t.active ? t('Yes') : t('No')%>,&nbsp; <%= t.brief_note %>,&nbsp; <%= t.ranking_index %> </li>
+  <% end %>
+</p>
+
+   <table class="table table-striped">
+	  <tr>
+	    <th>
+          <%= link_to t('Back'), SUBURI + "/authentify/view_handler?index=0", :id => 'close', :class => BUTTONS_CLS['action'] %>
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	  	  
+       </th>
+	  </tr>
+	</table>    	
+</div>
+
+<% end %>

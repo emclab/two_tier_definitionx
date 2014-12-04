@@ -1,0 +1,46 @@
+<% if @view_in_config && @erb_code %>
+  <%= render inline: ERB.new(@erb_code).result(binding) %>
+  
+<% else %>
+
+<h4><%=t(@for_which.sub('_', ' ').pluralize.titleize) %></h4>
+  <table class="table table-striped">
+    <tr>
+      <th><%= t('Create Date') %></th>
+      <th><%= t(@for_which.sub('_', ' ').titleize) %></th>
+      <th><%= t('Brief Note') %></th>
+      <th><%= t('Ranking Index') %></th>
+      <th><%= t('Active') %></th>
+      <tg><%= t('# of Sub Definitions')%></th>
+      <th><%= t('Entered By') %></th>
+      <th></th>
+    </tr>
+
+    <% models.each do |qs| %>
+        <tr>
+          <td><%= (qs.created_at + H_FROM_GMT.hours).strftime("%Y/%m/%d")%></td>
+          <td><%= link_to qs.name, definition_path(qs) %></td>
+          <td><%= qs.brief_note %></td>
+          <td><%= qs.ranking_index %></td>
+          <td><%= qs.active ? t('Yes') : t('No') %></td>
+          <td><%= qs.sub_definitions.size %></td>
+          <td><%= qs.last_updated_by.name if qs.last_updated_by_id.present? %></td>
+          <td><%= link_to t('Sub Definitions'), sub_definitions_path(definition_id: qs.id), :class => BUTTONS_CLS['action']
+          <td><%= link_to t('Edit'), edit_definition_path(qs, :subaction => @for_which, :for_which => @for_which), 
+                  :class => BUTTONS_CLS['action'] if has_action_right?('update_' + @for_which, params[:controller], qs) %></td>
+        </tr>
+    <% end %>
+
+  </table>
+
+	<table class="table table-striped">
+	  <tr>
+	    <th>
+	    	<%= link_to t('Back'), SUBURI + "/authentify/view_handler?index=0", :id => 'close', :class => BUTTONS_CLS['action'] %>
+	    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<%= link_to t("New " + @for_which.sub('_', ' ').titleize), new_definition_path(:for_which => @for_which.strip, :subaction => @for_which.strip), :class => BUTTONS_CLS['action'] if has_action_right?('create_' + @for_which, params[:controller]) %>   
+		</th>
+	  </tr>
+	</table>
+
+<% end %>	

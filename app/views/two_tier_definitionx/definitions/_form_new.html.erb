@@ -1,0 +1,22 @@
+<% if @view_in_config && @erb_code %>
+  <%= render inline: @erb_code %>
+  
+<% else %>
+<h4><%=@title %></h4>
+
+<%= simple_form_for @definition do |f| %>    
+
+  <%= f.input :name, :label => t(@for_which.sub('_', ' ').titleize + ':') %>
+  <%= f.input :brief_note, :label => t("Brief Note:") %> 
+  <%= f.input :for_which, :input_html => {:value => @for_which}, :as => :hidden, :readonly => true %>
+  <%= f.input :ranking_index, :label => t('Ranking Index'), :placehoder => '1, 2, 3 ...'%> 
+  <b><%=t('Sub Definition')%></b>
+  <p><%= link_to_add_fields t("Add Sub Definition"), f, :sub_definitions %></p>
+  
+  <%= link_to t('Back'), misc_definitions_path(:for_which => @for_which, :subaction => @for_which), :class => BUTTONS_CLS['action'] %>
+  <%= f.button :submit, t('Save'), :class => BUTTONS_CLS['action'] %>  
+  
+  
+<% end %>
+
+<% end %>

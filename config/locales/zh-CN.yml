@@ -1,0 +1,35 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+  
+zh-CN:
+  
+  #commonx
+  Ranking Index : '排序#'
+  Data Error. Not Saved!  : '数据错误。无法保存！'
+  'Brief Note:' : '简注：'
+  'Note:' : '注释：'
+  'Log:'  : '记录：'
+  'Active:' : '有效：'
+  Yes : '是'
+  No  : '否'
+  yes : '是'
+  no  : '否'
+  Ranking Index         : '排序#'
+  'Ranking Index:'       : '排序#:'
+  Duplicate Name! : '重名！'
+  Week : '周'
+  Month : '月'
+  Quart : '季'
+  Year : '年'
+  week : '周'
+  month : '月'
+  quart : '季'
+  year : '年'
+  Time Frame : '时段'
+  Entered By : '输入人'
+  Successfully Saved! : '已保存！'
+  Successfully Updated! : '已更新！'
+  'Data Error. Not Saved!' : '数据错误。无法保存！'
+  'Data Error. Not Updated!' : '数据错误。无法更新！'
+  Sub Definitions : '辅助分类'
+  Add Sub Definition : '加辅助分类定义'

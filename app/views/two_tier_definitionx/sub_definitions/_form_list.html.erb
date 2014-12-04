@@ -1,0 +1,37 @@
+<% if @view_in_config && @erb_code %>
+  <%= render inline: ERB.new(@erb_code).result(binding) %>
+  
+<% else %>
+
+<h4><%=@title %></h4>
+  <table class="table table-striped">
+    <tr>
+      <th><%= t('Create Date') %></th>
+      <th><%= t('Brief Note') %></th>
+      <th><%= t('Ranking Index') %></th>
+      <th><%= t('Active') %></th>
+      <th></th>
+    </tr>
+
+    <% models.each do |qs| %>
+        <tr>
+          <td><%= (qs.created_at + H_FROM_GMT.hours).strftime("%Y/%m/%d")%></td>
+          <td><%= link_to qs.name, definition_path(qs) %></td>
+          <td><%= qs.brief_note %></td>
+          <td><%= qs.ranking_index %></td>
+          <td><%= qs.active ? t('Yes') : t('No') %></td>
+        </tr>
+    <% end %>
+
+  </table>
+
+	<table class="table table-striped">
+	  <tr>
+	    <th>
+	    	<%= link_to t('Back'), SUBURI + "/authentify/view_handler?index=0", :id => 'close', :class => BUTTONS_CLS['action'] %>
+	    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   
+		</th>
+	  </tr>
+	</table>
+
+<% end %>	
