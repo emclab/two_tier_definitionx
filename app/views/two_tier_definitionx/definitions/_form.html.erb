@@ -20,8 +20,9 @@
   <% end %> 
   <p><%= link_to_add_fields t("Add Sub Definition"), f, :sub_definitions %></p>
   
-  <%= link_to t('Back'), misc_definitions_path(:for_which => @for_which), :class => BUTTONS_CLS['action'] %>
-  <%= f.button :submit, t('Save'), :class => BUTTONS_CLS['action'] %>  
+  <%= link_to t('Back'), definitions_path(:for_which => @for_which), :class => BUTTONS_CLS['action'] %>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        
+  <%= f.button :submit, I18n.t('Save'), :class => BUTTONS_CLS['action'] %>  
 <% end %>
 
 <% end %>

@@ -30,11 +30,12 @@ describe "LinkTests" do
       ur = FactoryGirl.create(:user_role, :role_definition_id => @role.id)
       ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
       @u = FactoryGirl.create(:user, :user_levels => [ul], :user_roles => [ur])
-      @cate = FactoryGirl.create(:commonx_misc_definition, :for_which => 'module_category')
+      #@cate = FactoryGirl.create(:commonx_misc_definition, :for_which => 'module_category')
       
       user_access = FactoryGirl.create(:user_access, :action => 'index_project_status', :resource => 'two_tier_definitionx_definitions',  :role_definition_id => @role.id, :rank => 1,
         :sql_code => "TwoTierDefinitionx::Definition.scoped.order('id DESC')")     
-        
+      user_access = FactoryGirl.create(:user_access, :action => 'index_project_status', :resource => 'two_tier_definitionx_sub_definitions',  :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "TwoTierDefinitionx::SubDefinition.scoped.order('id DESC')")     
       user_access = FactoryGirl.create(:user_access, :action => 'create_project_status', :resource =>'two_tier_definitionx_definitions', :role_definition_id => @role.id, :rank => 1,
         :sql_code => "")
       user_access = FactoryGirl.create(:user_access, :action => 'update_project_status', :resource =>'two_tier_definitionx_definitions', :role_definition_id => @role.id, :rank => 1,
@@ -59,36 +60,42 @@ describe "LinkTests" do
       #sub definitions
       visit definitions_path(for_which: 'project_status', subaction: 'project_status')
       click_link 'Sub Definitions'
-      page.should have_content('Project Status - Sub Definitions')
+      #save_and_open_page
+      page.should have_content('Sub Definitions')
       
       visit definitions_path(for_which: 'project_status', subaction: 'project_status')
       page.should have_content('Project Status')
       click_link 'Edit'
       page.should have_content('Update Project Status')
-      fill_in :name, :with => 'a new name'
+      fill_in :definition_name, :with => 'a new name'
+      click_button 'Save'
       visit definitions_path(for_which: 'project_status', subaction: 'project_status')
       page.should have_content 'a new name'
       #bad data
       visit definitions_path(for_which: 'project_status', subaction: 'project_status')
       click_link 'Edit'
-      fill_in :name, :with => ''
-      fill_in :brief_note, :with => 'a bad input'
+      fill_in :definition_name, :with => ''
+      fill_in :definition_brief_note, :with => 'a bad input'
+      click_button 'Save'
       visit definitions_path(for_which: 'project_status', subaction: 'project_status')
       page.should_not have_content 'a bad input'
       
       #new
       visit definitions_path(for_which: 'project_status', subaction: 'project_status')
       page.should have_content('Project Status')
-      click_link 'New Definition'
-      page.should have_content('Create Project Status')
-      fill_in :name, :with => 'create new name'
+      click_link 'New Project Status'
+      page.should have_content('New Project Status')
+      save_and_open_page
+      fill_in :definition_name, :with => 'create new name'
+      click_button 'Save'
       visit definitions_path(for_which: 'project_status', subaction: 'project_status')
       page.should have_content 'create new name'
       #bad data
       visit definitions_path(for_which: 'project_status', subaction: 'project_status')
-      click_link 'New Definition'
-      fill_in :name, :with => ''
-      fill_in :brief_note, :with => 'create bad input'
+      click_link 'New Project Status'
+      fill_in :definition_name, :with => ''
+      fill_in :definition_brief_note, :with => 'create bad input'
+      click_button 'Save'
       visit definitions_path(for_which: 'project_status', subaction: 'project_status')
       page.should_not have_content 'create bad input'
       

@@ -3,7 +3,7 @@
 FactoryGirl.define do
   factory :two_tier_definitionx_definition, :class => 'TwoTierDefinitionx::Definition' do
     name "MyString"
-    active false
+    active true
     for_which "MyString"
     brief_note "MyText"
     last_updated_by_id 1

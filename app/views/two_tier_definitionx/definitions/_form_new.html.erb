@@ -8,13 +8,14 @@
 
   <%= f.input :name, :label => t(@for_which.sub('_', ' ').titleize + ':') %>
   <%= f.input :brief_note, :label => t("Brief Note:") %> 
-  <%= f.input :for_which, :input_html => {:value => @for_which}, :as => :hidden, :readonly => true %>
+  <%= f.input :for_which, :input_html => {:value => @for_which}, :as => :hidden %>
   <%= f.input :ranking_index, :label => t('Ranking Index'), :placehoder => '1, 2, 3 ...'%> 
   <b><%=t('Sub Definition')%></b>
   <p><%= link_to_add_fields t("Add Sub Definition"), f, :sub_definitions %></p>
   
-  <%= link_to t('Back'), misc_definitions_path(:for_which => @for_which, :subaction => @for_which), :class => BUTTONS_CLS['action'] %>
-  <%= f.button :submit, t('Save'), :class => BUTTONS_CLS['action'] %>  
+  <%= link_to t('Back'), definitions_path(:for_which => @for_which, :subaction => @for_which), :class => BUTTONS_CLS['action'] %>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        
+  <%= f.button :submit, I18n.t('Save'), :class => BUTTONS_CLS['action'] %>  
   
   
 <% end %>

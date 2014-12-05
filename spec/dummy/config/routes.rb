@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
   mount TwoTierDefinitionx::Engine => "/two_tier_definitionx"
   mount Authentify::Engine => '/authentify'
+  mount Commonx::Engine => '/common'
   
   resource :session
   

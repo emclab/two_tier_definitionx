@@ -28,7 +28,7 @@
 <b><%=t('Sub Definitions')%></b>
 <p>
   <% @definition.sub_definitions.each do |t| %>
-    <li><%=(t.created_at + + H_FROM_GMT.hours).strftime("%Y/%m/%d")%>, &nbsp;<%=t.name %>,&nbsp;<%=t.active ? t('Yes') : t('No')%>,&nbsp; <%= t.brief_note %>,&nbsp; <%= t.ranking_index %> </li>
+    <li><%=(t.created_at + H_FROM_GMT.hours).strftime("%Y/%m/%d")%>, &nbsp;<%=t.name %>,&nbsp;<%=t.active ? t('Yes') : t('No')%>,&nbsp; <%= t.brief_note %>,&nbsp; <%= t.ranking_index %> </li>
   <% end %>
 </p>
 

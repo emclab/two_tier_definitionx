@@ -54,7 +54,7 @@ module TwoTierDefinitionx
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
         ls = FactoryGirl.create(:two_tier_definitionx_definition, :active => true, :last_updated_by_id => @u.id, :for_which => 'task_status')
         get 'index' , {:use_route => :two_tier_definitionx, :for_which => nil, :subaction => 'task_status'}
-        response.should redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=NO Subaction in Misc Definition!") 
+        response.should redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=NO Subaction in Definition!") 
       end
       
     end
@@ -92,8 +92,8 @@ module TwoTierDefinitionx
         session[:subaction] = 'project_status'
         sub = FactoryGirl.attributes_for(:two_tier_definitionx_sub_definition)
         qs = FactoryGirl.attributes_for(:two_tier_definitionx_definition, :for_which => 'project_status', :sub_definitions_attributes => [sub])
-        get 'create', {:use_route => :two_tier_definitionx, :definition => qs}   #:subaction => 'project_status' handled by session variable.
-        response.should redirect_to misc_definitions_path(:for_which => 'project_status', :subaction => 'project_status')
+        get 'create', {:use_route => :two_tier_definitionx, :definition => qs, :for_which => 'project_status'}   #:subaction => 'project_status' handled by session variable.
+        response.should redirect_to definitions_path(:for_which => 'project_status', :subaction => 'project_status')
       end
       
       it "should save for task_status with create right" do
@@ -105,8 +105,8 @@ module TwoTierDefinitionx
         session[:subaction] = 'task_status'
         sub = FactoryGirl.attributes_for(:two_tier_definitionx_sub_definition)
         qs = FactoryGirl.attributes_for(:two_tier_definitionx_definition, :for_which => 'task_status', :sub_definitions_attributes => [sub])
-        get 'create', {:use_route => :two_tier_definitionx, :definition => qs}  # :subaction => 'task_status'}
-        response.should redirect_to misc_definitions_path(:for_which => 'task_status', :subaction => 'task_status')
+        get 'create', {:use_route => :two_tier_definitionx, :definition => qs, :for_which => 'project_status'}  # :subaction => 'task_status'}
+        response.should redirect_to definitions_path(:for_which => 'task_status', :subaction => 'task_status')
       end
       
       it "should render new with data error" do
@@ -159,7 +159,7 @@ module TwoTierDefinitionx
         session[:subaction] = 'project_status'
         qs = FactoryGirl.create(:two_tier_definitionx_definition, :for_which => 'project_status')
         get 'update', {:use_route => :two_tier_definitionx, :id => qs.id, :definition => {:name => 'newnew name'}, :for_which => 'project_status'}
-        response.should redirect_to misc_definitions_path(:for_which => 'project_status', :subaction => 'project_status')
+        response.should redirect_to definitions_path(:for_which => 'project_status', :subaction => 'project_status')
       end
       
       it "should update task_status with update right" do
@@ -171,10 +171,10 @@ module TwoTierDefinitionx
         session[:subaction] = 'task_status'
         qs = FactoryGirl.create(:two_tier_definitionx_definition, :for_which => 'task_status')
         get 'update', {:use_route => :two_tier_definitionx, :id => qs.id, :definition => {:name => 'newnew name'}, :for_which => 'task_status'}
-        response.should redirect_to misc_definitions_path(:for_which => 'task_status', :subaction => 'task_status')
+        response.should redirect_to definitions_path(:for_which => 'task_status', :subaction => 'task_status')
       end
       
-      it "shoudl render edit with data error" do
+      it "should render edit with data error" do
         user_access = FactoryGirl.create(:user_access, :action => 'update_task_status', :resource => 'two_tier_definitionx_definitions', :role_definition_id => @role.id, :rank => 1,
         :sql_code => "")
         session[:employee] = true
@@ -189,7 +189,14 @@ module TwoTierDefinitionx
     
     describe "GET 'show'" do
       it "returns http success" do
-        get 'update'
+        user_access = FactoryGirl.create(:user_access, :action => 'show_task_status', :resource => 'two_tier_definitionx_definitions', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "")
+        session[:employee] = true
+        session[:user_id] = @u.id
+        session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
+        session[:subaction] = 'task_status'
+        qs = FactoryGirl.create(:two_tier_definitionx_definition, :for_which => 'task_status')
+        get 'show', {:use_route => :two_tier_definitionx, :id => qs.id, :subaction => 'task_status'}
         response.should be_success
       end
     end

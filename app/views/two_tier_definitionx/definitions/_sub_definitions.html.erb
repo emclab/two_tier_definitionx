@@ -5,13 +5,11 @@
 <div class="fields">
 	
   <%= f.input :name, :label => t('Name'), :readonly => true %>
-  <%= f.input :brief_note, :label => t(''), :input_html => {:rows => 1}, :readonly => true %>
-  <%= f.input :unit_price, :label => t("Unit Price($)"), :readonly => true %> 
-  <%= f.input :active, :label => t("Active"), :collection => :collection => [[t('Yes'), true], [t('No'), false]], :selected => true %>
+  <%= f.input :active, :label => t("Active"), :collection => [[t('Yes'), true], [t('No'), false]] %>
   <%= f.input :ranking_index, :label => t("Ranking Index") %> 
   <%= f.input :brief_note, :label => t("Brief Note")%>
 
-  <%= link_to_remove_fields t("Delete Item"), f %>
+  <%= link_to_remove_fields t("Delete Sub Definition"), f %>
 </div>
 
 <% end %>

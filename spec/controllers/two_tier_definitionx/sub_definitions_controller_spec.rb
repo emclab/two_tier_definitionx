@@ -23,17 +23,17 @@ module TwoTierDefinitionx
     
     describe "GET 'index'" do
       it "returns all sub definitions" do       
-        user_access = FactoryGirl.create(:user_access, :action => 'index_project_status', :resource => 'two_tier_definitionx_definitions', :role_definition_id => @role.id, :rank => 1,
-        :sql_code => "TwoTierDefinitionx::Definition.where(:active => true).where('for_which = ?', 'project_status').order('ranking_index')")
+        user_access = FactoryGirl.create(:user_access, :action => 'index_project_status', :resource => 'two_tier_definitionx_sub_definitions', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "TwoTierDefinitionx::SubDefinition.where(:active => true).order('ranking_index')")
         session[:employee] = true
         session[:user_id] = @u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
         qs = FactoryGirl.create(:two_tier_definitionx_definition, :active => true, :last_updated_by_id => @u.id, :for_which => 'project_status')
-        sub1 = FactoryGirl.create(:two_tier_definitionx_sub_definition, :definition_id => qs.id)
+        sub1 = FactoryGirl.create(:two_tier_definitionx_sub_definition, :definition_id => qs.id, :name => 'new name', :active => true)
         sub2 = FactoryGirl.create(:two_tier_definitionx_sub_definition, :definition_id => qs.id + 1)
-        get 'index' , {:use_route => :two_tier_definitionx, :definition_id => qs.id}
+        get 'index' , {:use_route => :two_tier_definitionx, :definition_id => qs.id, :subaction => 'project_status'}
         #response.should be_success
-        assigns(:sub_definitions).should eq([qs])
+        assigns(:sub_definitions).should eq([sub1])
       end
       
     end
