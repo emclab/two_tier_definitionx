@@ -4,7 +4,7 @@
 <% else %>
 <div class="fields">
 	
-  <%= f.input :name, :label => t('Name'), :readonly => true %>
+  <%= f.input :name, :label => t('Name') %>
   <%= f.input :active, :label => t("Active"), :collection => [[t('Yes'), true], [t('No'), false]] %>
   <%= f.input :ranking_index, :label => t("Ranking Index") %> 
   <%= f.input :brief_note, :label => t("Brief Note")%>
