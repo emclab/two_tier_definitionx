@@ -20,7 +20,7 @@ module TwoTierDefinitionx
     it "should reject dup name" do
       c1 = FactoryGirl.create(:two_tier_definitionx_definition, :name => 'nil', :for_which => 'which')
       c = FactoryGirl.build(:two_tier_definitionx_definition, :name => 'Nil', :for_which => 'which')
-      c.should be_valid
+      c.should_not be_valid
     end
   end
 end

@@ -15,7 +15,7 @@ module TwoTierDefinitionx
     it "should reject dup name for same definition" do
       c1 = FactoryGirl.create(:two_tier_definitionx_sub_definition, :name => 'nil', :definition_id => 1)
       c = FactoryGirl.build(:two_tier_definitionx_sub_definition, :name => 'Nil', :definition_id => 1)
-      c.should be_valid
+      c.should_not be_valid
     end
   end
 end
