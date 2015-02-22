@@ -2,7 +2,7 @@ require_dependency "two_tier_definitionx/application_controller"
 
 module TwoTierDefinitionx
   class DefinitionsController < ApplicationController
-    before_filter :require_employee
+    #before_filter :require_employee
     before_filter :load_for_which, :only => [:index, :new, :edit, :show] 
     
     def index

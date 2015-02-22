@@ -1,9 +1,10 @@
-require 'spec_helper'
+require 'rails_helper'
 
 module TwoTierDefinitionx
-  describe DefinitionsController do
+  RSpec.describe DefinitionsController, type: :controller do
+    routes {TwoTierDefinitionx::Engine.routes}
     before(:each) do
-      controller.should_receive(:require_signin)
+      expect(controller).to receive(:require_signin)
       #controller.should_receive(:require_employee)
     end
   
@@ -29,9 +30,9 @@ module TwoTierDefinitionx
         session[:user_id] = @u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
         qs = FactoryGirl.create(:two_tier_definitionx_definition, :active => true, :last_updated_by_id => @u.id, :for_which => 'project_status')
-        get 'index' , {:use_route => :two_tier_definitionx, :for_which => qs.for_which, :subaction => qs.for_which}
-        #response.should be_success
-        assigns(:definitions).should eq([qs])
+        get 'index' , {:for_which => qs.for_which, :subaction => qs.for_which}
+        #expect(response).to be_success
+        expect(assigns(:definitions)).to match_array([qs])
       end
       
       it "returns project status for user" do
@@ -41,9 +42,9 @@ module TwoTierDefinitionx
         session[:user_id] = @u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
         qs = FactoryGirl.create(:two_tier_definitionx_definition, :active => true, :last_updated_by_id => @u.id, :for_which => 'project_status')
-        get 'index' , {:use_route => :two_tier_definitionx, :for_which => 'project_status', :subaction => 'project_status'}
-        #response.should be_success
-        assigns(:definitions).should eq([qs])
+        get 'index' , {:for_which => 'project_status', :subaction => 'project_status'}
+        #expect(response).to be_success
+        expect(assigns(:definitions)).to match_array([qs])
       end
       
       it "should redirect if no for_which passed in" do
@@ -53,8 +54,8 @@ module TwoTierDefinitionx
         session[:user_id] = @u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
         ls = FactoryGirl.create(:two_tier_definitionx_definition, :active => true, :last_updated_by_id => @u.id, :for_which => 'task_status')
-        get 'index' , {:use_route => :two_tier_definitionx, :for_which => nil, :subaction => 'task_status'}
-        response.should redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=NO Subaction in Definition!") 
+        get 'index' , {:for_which => nil, :subaction => 'task_status'}
+        expect(response).to redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=NO Subaction in Definition!") 
       end
       
     end
@@ -66,8 +67,8 @@ module TwoTierDefinitionx
         session[:employee] = true
         session[:user_id] = @u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
-        get 'new', {:use_route => :two_tier_definitionx, :for_which => 'project_status', :subaction => 'project_status'}
-        response.should be_success
+        get 'new', {:for_which => 'project_status', :subaction => 'project_status'}
+        expect(response).to be_success
       end
       
       it "returns http success for task_status with create action rights" do
@@ -76,8 +77,8 @@ module TwoTierDefinitionx
         session[:employee] = true
         session[:user_id] = @u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
-        get 'new', {:use_route => :two_tier_definitionx, :for_which => 'task_status', :subaction => 'task_status'}
-        response.should be_success
+        get 'new', {:for_which => 'task_status', :subaction => 'task_status'}
+        expect(response).to be_success
       end
       
     end
@@ -92,8 +93,8 @@ module TwoTierDefinitionx
         session[:subaction] = 'project_status'
         sub = FactoryGirl.attributes_for(:two_tier_definitionx_sub_definition)
         qs = FactoryGirl.attributes_for(:two_tier_definitionx_definition, :for_which => 'project_status', :sub_definitions_attributes => [sub])
-        get 'create', {:use_route => :two_tier_definitionx, :definition => qs, :for_which => 'project_status'}   #:subaction => 'project_status' handled by session variable.
-        response.should redirect_to definitions_path(:for_which => 'project_status', :subaction => 'project_status')
+        get 'create', {:definition => qs, :for_which => 'project_status'}   #:subaction => 'project_status' handled by session variable.
+        expect(response).to redirect_to definitions_path(:for_which => 'project_status', :subaction => 'project_status')
       end
       
       it "should save for task_status with create right" do
@@ -105,8 +106,8 @@ module TwoTierDefinitionx
         session[:subaction] = 'task_status'
         sub = FactoryGirl.attributes_for(:two_tier_definitionx_sub_definition)
         qs = FactoryGirl.attributes_for(:two_tier_definitionx_definition, :for_which => 'task_status', :sub_definitions_attributes => [sub])
-        get 'create', {:use_route => :two_tier_definitionx, :definition => qs, :for_which => 'project_status'}  # :subaction => 'task_status'}
-        response.should redirect_to definitions_path(:for_which => 'task_status', :subaction => 'task_status')
+        get 'create', {:definition => qs, :for_which => 'project_status'}  # :subaction => 'task_status'}
+        expect(response).to redirect_to definitions_path(:for_which => 'task_status', :subaction => 'task_status')
       end
       
       it "should render new with data error" do
@@ -118,8 +119,8 @@ module TwoTierDefinitionx
         session[:subaction] = 'project_status'
         sub = FactoryGirl.attributes_for(:two_tier_definitionx_sub_definition)
         qs = FactoryGirl.attributes_for(:two_tier_definitionx_definition, :name => nil, :for_which => 'project_status', :sub_definitions_attributes => [sub])
-        get 'create', {:use_route => :two_tier_definitionx, :definition => qs, :for_which => 'project_status', :subaction => 'project_status'}
-        response.should render_template('new')
+        get 'create', {:definition => qs, :for_which => 'project_status', :subaction => 'project_status'}
+        expect(response).to render_template('new')
       end
       
     end
@@ -132,8 +133,8 @@ module TwoTierDefinitionx
         session[:user_id] = @u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
         qs = FactoryGirl.create(:two_tier_definitionx_definition, :for_which => 'project_status')
-        get 'edit', {:use_route => :two_tier_definitionx, :id => qs.id, :for_which => 'project_status', :subaction => 'project_status'}
-        response.should be_success
+        get 'edit', {:id => qs.id, :for_which => 'project_status', :subaction => 'project_status'}
+        expect(response).to be_success
       end
       
       it "should edit task_status with proper right" do
@@ -143,8 +144,8 @@ module TwoTierDefinitionx
         session[:user_id] = @u.id
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
         qs = FactoryGirl.create(:two_tier_definitionx_definition, :for_which => 'task_status')
-        get 'edit', {:use_route => :two_tier_definitionx, :id => qs.id, :for_which => 'task_status', :subaction => 'task_status'}
-        response.should be_success
+        get 'edit', {:id => qs.id, :for_which => 'task_status', :subaction => 'task_status'}
+        expect(response).to be_success
       end
       
     end
@@ -158,8 +159,8 @@ module TwoTierDefinitionx
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
         session[:subaction] = 'project_status'
         qs = FactoryGirl.create(:two_tier_definitionx_definition, :for_which => 'project_status')
-        get 'update', {:use_route => :two_tier_definitionx, :id => qs.id, :definition => {:name => 'newnew name'}, :for_which => 'project_status'}
-        response.should redirect_to definitions_path(:for_which => 'project_status', :subaction => 'project_status')
+        get 'update', {:id => qs.id, :definition => {:name => 'newnew name'}, :for_which => 'project_status'}
+        expect(response).to redirect_to definitions_path(:for_which => 'project_status', :subaction => 'project_status')
       end
       
       it "should update task_status with update right" do
@@ -170,8 +171,8 @@ module TwoTierDefinitionx
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
         session[:subaction] = 'task_status'
         qs = FactoryGirl.create(:two_tier_definitionx_definition, :for_which => 'task_status')
-        get 'update', {:use_route => :two_tier_definitionx, :id => qs.id, :definition => {:name => 'newnew name'}, :for_which => 'task_status'}
-        response.should redirect_to definitions_path(:for_which => 'task_status', :subaction => 'task_status')
+        get 'update', {:id => qs.id, :definition => {:name => 'newnew name'}, :for_which => 'task_status'}
+        expect(response).to redirect_to definitions_path(:for_which => 'task_status', :subaction => 'task_status')
       end
       
       it "should render edit with data error" do
@@ -182,8 +183,8 @@ module TwoTierDefinitionx
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
         session[:subaction] = 'task_status'
         qs = FactoryGirl.create(:two_tier_definitionx_definition, :for_which => 'task_status')
-        get 'update', {:use_route => :two_tier_definitionx, :id => qs.id, :definition => {:name => ''}, :for_which => 'task_status', :subaction => 'task_status'}
-        response.should render_template('edit')
+        get 'update', {:id => qs.id, :definition => {:name => ''}, :for_which => 'task_status', :subaction => 'task_status'}
+        expect(response).to render_template('edit')
       end
     end
     
@@ -196,8 +197,8 @@ module TwoTierDefinitionx
         session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
         session[:subaction] = 'task_status'
         qs = FactoryGirl.create(:two_tier_definitionx_definition, :for_which => 'task_status')
-        get 'show', {:use_route => :two_tier_definitionx, :id => qs.id, :subaction => 'task_status'}
-        response.should be_success
+        get 'show', {:id => qs.id, :subaction => 'task_status'}
+        expect(response).to be_success
       end
     end
   

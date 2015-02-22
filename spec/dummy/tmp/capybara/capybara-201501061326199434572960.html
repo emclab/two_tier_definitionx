@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dummy</title>
+  <link href="/assets/application.css" media="all" rel="stylesheet" type="text/css" />
+  <script src="/assets/application.js" type="text/javascript"></script>
+  
+</head>
+<body>
+
+<div id="main_body">
+
+<h4>New Project Status</h4>
+
+<form accept-charset="UTF-8" action="/two_tier_definitionx/definitions" class="simple_form new_definition" id="new_definition" method="post" novalidate="novalidate"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div>    
+
+  <div class="input string required definition_name"><label class="string required control-label" for="definition_name"><abbr title="required">*</abbr> <span class="translation_missing" title="translation missing: en.Project Status:">Project Status:</span></label><input class="string required" id="definition_name" name="definition[name]" size="50" type="text" /></div>
+  <div class="input string optional definition_brief_note"><label class="string optional control-label" for="definition_brief_note"><span class="translation_missing" title="translation missing: en.Brief Note:">Brief Note:</span></label><input class="string optional" id="definition_brief_note" name="definition[brief_note]" size="50" type="text" /></div> 
+  <div class="input hidden definition_for_which"><input class="hidden" id="definition_for_which" name="definition[for_which]" type="hidden" value="project_status" /></div>
+  <div class="input integer optional definition_ranking_index"><label class="integer optional control-label" for="definition_ranking_index"><span class="translation_missing" title="translation missing: en.Ranking Index">Ranking Index</span></label><input class="numeric integer optional" id="definition_ranking_index" name="definition[ranking_index]" step="1" type="number" /></div> 
+  <b><span class="translation_missing" title="translation missing: en.Sub Definition">Sub Definition</span></b>
+  <p><a href="#" onclick="add_fields(this, &quot;sub_definitions&quot;, &quot;&lt;div class=\&quot;fields\&quot;&gt;\n	\n  &lt;div class=\&quot;input string required definition_sub_definitions_name\&quot;&gt;&lt;label class=\&quot;string required control-label\&quot; for=\&quot;definition_sub_definitions_attributes_new_sub_definitions_name\&quot;&gt;&lt;abbr title=\&quot;required\&quot;&gt;*&lt;\/abbr&gt; &lt;span class=\&quot;translation_missing\&quot; title=\&quot;translation missing: en.Name\&quot;&gt;Name&lt;\/span&gt;&lt;\/label&gt;&lt;input class=\&quot;string required\&quot; id=\&quot;definition_sub_definitions_attributes_new_sub_definitions_name\&quot; name=\&quot;definition[sub_definitions_attributes][new_sub_definitions][name]\&quot; size=\&quot;50\&quot; type=\&quot;text\&quot; /&gt;&lt;\/div&gt;\n  &lt;div class=\&quot;input select optional definition_sub_definitions_active\&quot;&gt;&lt;label class=\&quot;select optional control-label\&quot; for=\&quot;definition_sub_definitions_attributes_new_sub_definitions_active\&quot;&gt;&lt;span class=\&quot;translation_missing\&quot; title=\&quot;translation missing: en.Active\&quot;&gt;Active&lt;\/span&gt;&lt;\/label&gt;&lt;select class=\&quot;select optional\&quot; id=\&quot;definition_sub_definitions_attributes_new_sub_definitions_active\&quot; name=\&quot;definition[sub_definitions_attributes][new_sub_definitions][active]\&quot;&gt;&lt;option value=\&quot;\&quot;&gt;&lt;\/option&gt;\n&lt;option value=\&quot;true\&quot; selected=\&quot;selected\&quot;&gt;&lt;span class=\&quot;translation_missing\&quot; title=\&quot;translation missing: en.Yes\&quot;&gt;Yes&lt;\/span&gt;&lt;\/option&gt;\n&lt;option value=\&quot;false\&quot;&gt;&lt;span class=\&quot;translation_missing\&quot; title=\&quot;translation missing: en.No\&quot;&gt;No&lt;\/span&gt;&lt;\/option&gt;&lt;\/select&gt;&lt;\/div&gt;\n  &lt;div class=\&quot;input integer optional definition_sub_definitions_ranking_index\&quot;&gt;&lt;label class=\&quot;integer optional control-label\&quot; for=\&quot;definition_sub_definitions_attributes_new_sub_definitions_ranking_index\&quot;&gt;&lt;span class=\&quot;translation_missing\&quot; title=\&quot;translation missing: en.Ranking Index\&quot;&gt;Ranking Index&lt;\/span&gt;&lt;\/label&gt;&lt;input class=\&quot;numeric integer optional\&quot; id=\&quot;definition_sub_definitions_attributes_new_sub_definitions_ranking_index\&quot; name=\&quot;definition[sub_definitions_attributes][new_sub_definitions][ranking_index]\&quot; step=\&quot;1\&quot; type=\&quot;number\&quot; /&gt;&lt;\/div&gt; \n  &lt;div class=\&quot;input string optional definition_sub_definitions_brief_note\&quot;&gt;&lt;label class=\&quot;string optional control-label\&quot; for=\&quot;definition_sub_definitions_attributes_new_sub_definitions_brief_note\&quot;&gt;&lt;span class=\&quot;translation_missing\&quot; title=\&quot;translation missing: en.Brief Note\&quot;&gt;Brief Note&lt;\/span&gt;&lt;\/label&gt;&lt;input class=\&quot;string optional\&quot; id=\&quot;definition_sub_definitions_attributes_new_sub_definitions_brief_note\&quot; name=\&quot;definition[sub_definitions_attributes][new_sub_definitions][brief_note]\&quot; size=\&quot;50\&quot; type=\&quot;text\&quot; /&gt;&lt;\/div&gt;\n\n  &lt;input id=\&quot;definition_sub_definitions_attributes_new_sub_definitions__destroy\&quot; name=\&quot;definition[sub_definitions_attributes][new_sub_definitions][_destroy]\&quot; type=\&quot;hidden\&quot; value=\&quot;false\&quot; /&gt;&lt;a href=\&quot;#\&quot; onclick=\&quot;remove_fields(this); return false;\&quot;&gt;&lt;span class=\&quot;translation_missing\&quot; title=\&quot;translation missing: en.Delete Sub Definition\&quot;&gt;Delete Sub Definition&lt;\/span&gt;&lt;\/a&gt;\n&lt;\/div&gt;\n\n&quot;); return false;"><span class="translation_missing" title="translation missing: en.Add Sub Definition">Add Sub Definition</span></a></p>
+  
+  <a href="/two_tier_definitionx/definitions?for_which=project_status&amp;subaction=project_status" class="btn btn-primary"><span class="translation_missing" title="translation missing: en.Back">Back</span></a>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        
+  <input class="btn btn btn-primary" name="commit" type="submit" value="translation missing: en.Save" />  
+  
+  
+</form>
+
+
+</div>
+
+</body>
+</html>

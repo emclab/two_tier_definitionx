@@ -1,9 +1,10 @@
-require 'spec_helper'
+require 'rails_helper'
 
 module TwoTierDefinitionx
-  describe SubDefinitionsController do
+  RSpec.describe SubDefinitionsController, type: :controller do
+    routes {TwoTierDefinitionx::Engine.routes}
     before(:each) do
-      controller.should_receive(:require_signin)
+      expect(controller).to receive(:require_signin)
       #controller.should_receive(:require_employee)
     end
   
@@ -31,9 +32,9 @@ module TwoTierDefinitionx
         qs = FactoryGirl.create(:two_tier_definitionx_definition, :active => true, :last_updated_by_id => @u.id, :for_which => 'project_status')
         sub1 = FactoryGirl.create(:two_tier_definitionx_sub_definition, :definition_id => qs.id, :name => 'new name', :active => true)
         sub2 = FactoryGirl.create(:two_tier_definitionx_sub_definition, :definition_id => qs.id + 1)
-        get 'index' , {:use_route => :two_tier_definitionx, :definition_id => qs.id, :subaction => 'project_status'}
+        get 'index' , {:definition_id => qs.id, :subaction => 'project_status'}
         #response.should be_success
-        assigns(:sub_definitions).should eq([sub1])
+        expect(assigns(:sub_definitions)).to match_array([sub1])
       end
       
     end

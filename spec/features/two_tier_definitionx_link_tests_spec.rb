@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe "LinkTests" do
+RSpec.describe "LinkTests", type: :request do
   describe "GET /two_tier_definitionx_link_tests" do
     mini_btn = 'btn btn-mini '
     ActionView::CompiledTemplates::BUTTONS_CLS =
@@ -33,9 +33,9 @@ describe "LinkTests" do
       #@cate = FactoryGirl.create(:commonx_misc_definition, :for_which => 'module_category')
       
       user_access = FactoryGirl.create(:user_access, :action => 'index_project_status', :resource => 'two_tier_definitionx_definitions',  :role_definition_id => @role.id, :rank => 1,
-        :sql_code => "TwoTierDefinitionx::Definition.scoped.order('id DESC')")     
+        :sql_code => "TwoTierDefinitionx::Definition.all.order('id DESC')")     
       user_access = FactoryGirl.create(:user_access, :action => 'index_project_status', :resource => 'two_tier_definitionx_sub_definitions',  :role_definition_id => @role.id, :rank => 1,
-        :sql_code => "TwoTierDefinitionx::SubDefinition.scoped.order('id DESC')")     
+        :sql_code => "TwoTierDefinitionx::SubDefinition.all.order('id DESC')")     
       user_access = FactoryGirl.create(:user_access, :action => 'create_project_status', :resource =>'two_tier_definitionx_definitions', :role_definition_id => @role.id, :rank => 1,
         :sql_code => "")
       user_access = FactoryGirl.create(:user_access, :action => 'update_project_status', :resource =>'two_tier_definitionx_definitions', :role_definition_id => @role.id, :rank => 1,
@@ -43,7 +43,7 @@ describe "LinkTests" do
       user_access = FactoryGirl.create(:user_access, :action => 'show_project_status', :resource =>'two_tier_definitionx_definitions', :role_definition_id => @role.id, :rank => 1,
         :sql_code => "record.last_updated_by_id == session[:user_id]")
       
-      visit '/'
+      visit authentify.new_session_path
       #save_and_open_page
       fill_in "login", :with => @u.login
       fill_in "password", :with => @u.password
@@ -54,50 +54,50 @@ describe "LinkTests" do
       sub = FactoryGirl.create(:two_tier_definitionx_sub_definition)
       qs = FactoryGirl.create(:two_tier_definitionx_definition, :active => true, :sub_definitions=> [sub], :last_updated_by_id => @u.id, :for_which => 'project_status')      
       #show
-      visit definitions_path(for_which: 'project_status', subaction: 'project_status')
+      visit two_tier_definitionx.definitions_path(for_which: 'project_status', subaction: 'project_status')
       click_link qs.name
-      page.should have_content('Project Status Info')
+      expect(page).to have_content('Project Status Info')
       #sub definitions
-      visit definitions_path(for_which: 'project_status', subaction: 'project_status')
+      visit two_tier_definitionx.definitions_path(for_which: 'project_status', subaction: 'project_status')
       click_link 'Sub Definitions'
       #save_and_open_page
-      page.should have_content('Sub Definitions')
+      expect(page).to have_content('Sub Definitions')
       
-      visit definitions_path(for_which: 'project_status', subaction: 'project_status')
-      page.should have_content('Project Status')
+      visit two_tier_definitionx.definitions_path(for_which: 'project_status', subaction: 'project_status')
+      expect(page).to have_content('Project Status')
       click_link 'Edit'
-      page.should have_content('Update Project Status')
+      expect(page).to have_content('Update Project Status')
       fill_in :definition_name, :with => 'a new name'
       click_button 'Save'
-      visit definitions_path(for_which: 'project_status', subaction: 'project_status')
-      page.should have_content 'a new name'
+      visit two_tier_definitionx.definitions_path(for_which: 'project_status', subaction: 'project_status')
+      expect(page).to have_content 'a new name'
       #bad data
-      visit definitions_path(for_which: 'project_status', subaction: 'project_status')
+      visit two_tier_definitionx.definitions_path(for_which: 'project_status', subaction: 'project_status')
       click_link 'Edit'
       fill_in :definition_name, :with => ''
       fill_in :definition_brief_note, :with => 'a bad input'
       click_button 'Save'
-      visit definitions_path(for_which: 'project_status', subaction: 'project_status')
-      page.should_not have_content 'a bad input'
+      visit two_tier_definitionx.definitions_path(for_which: 'project_status', subaction: 'project_status')
+      expect(page).not_to have_content 'a bad input'
       
       #new
-      visit definitions_path(for_which: 'project_status', subaction: 'project_status')
-      page.should have_content('Project Status')
+      visit two_tier_definitionx.definitions_path(for_which: 'project_status', subaction: 'project_status')
+      expect(page).to have_content('Project Status')
       click_link 'New Project Status'
-      page.should have_content('New Project Status')
+      expect(page).to have_content('New Project Status')
       save_and_open_page
       fill_in :definition_name, :with => 'create new name'
       click_button 'Save'
-      visit definitions_path(for_which: 'project_status', subaction: 'project_status')
-      page.should have_content 'create new name'
+      visit two_tier_definitionx.definitions_path(for_which: 'project_status', subaction: 'project_status')
+      expect(page).to have_content 'create new name'
       #bad data
-      visit definitions_path(for_which: 'project_status', subaction: 'project_status')
+      visit two_tier_definitionx.definitions_path(for_which: 'project_status', subaction: 'project_status')
       click_link 'New Project Status'
       fill_in :definition_name, :with => ''
       fill_in :definition_brief_note, :with => 'create bad input'
       click_button 'Save'
-      visit definitions_path(for_which: 'project_status', subaction: 'project_status')
-      page.should_not have_content 'create bad input'
+      visit two_tier_definitionx.definitions_path(for_which: 'project_status', subaction: 'project_status')
+      expect(page).not_to have_content 'create bad input'
       
     end
   end
