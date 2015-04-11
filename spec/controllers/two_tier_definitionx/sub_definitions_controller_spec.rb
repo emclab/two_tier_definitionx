@@ -19,7 +19,8 @@ module TwoTierDefinitionx
       ur = FactoryGirl.create(:user_role, :role_definition_id => @role.id)
       ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
       @u = FactoryGirl.create(:user, :user_levels => [ul], :user_roles => [ur])
-        
+       
+      session[:user_role_ids] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id).user_role_ids
     end
     
     describe "GET 'index'" do
@@ -28,7 +29,6 @@ module TwoTierDefinitionx
         :sql_code => "TwoTierDefinitionx::SubDefinition.where(:active => true).order('ranking_index')")
         session[:employee] = true
         session[:user_id] = @u.id
-        session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
         qs = FactoryGirl.create(:two_tier_definitionx_definition, :active => true, :last_updated_by_id => @u.id, :for_which => 'project_status')
         sub1 = FactoryGirl.create(:two_tier_definitionx_sub_definition, :definition_id => qs.id, :name => 'new name', :active => true)
         sub2 = FactoryGirl.create(:two_tier_definitionx_sub_definition, :definition_id => qs.id + 1)

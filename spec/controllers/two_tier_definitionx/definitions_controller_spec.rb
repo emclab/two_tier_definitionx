@@ -19,7 +19,8 @@ module TwoTierDefinitionx
       ur = FactoryGirl.create(:user_role, :role_definition_id => @role.id)
       ul = FactoryGirl.build(:user_level, :sys_user_group_id => ug.id)
       @u = FactoryGirl.create(:user, :user_levels => [ul], :user_roles => [ur])
-        
+      
+      session[:user_role_ids] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id).user_role_ids
     end
     
     describe "GET 'index'" do
@@ -28,7 +29,6 @@ module TwoTierDefinitionx
         :sql_code => "TwoTierDefinitionx::Definition.where(:active => true).where('for_which = ?', 'project_status').order('ranking_index')")
         session[:employee] = true
         session[:user_id] = @u.id
-        session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
         qs = FactoryGirl.create(:two_tier_definitionx_definition, :active => true, :last_updated_by_id => @u.id, :for_which => 'project_status')
         get 'index' , {:for_which => qs.for_which, :subaction => qs.for_which}
         #expect(response).to be_success
@@ -40,7 +40,6 @@ module TwoTierDefinitionx
         :sql_code => "TwoTierDefinitionx::Definition.where(:active => true).order('ranking_index')")
         session[:employee] = true
         session[:user_id] = @u.id
-        session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
         qs = FactoryGirl.create(:two_tier_definitionx_definition, :active => true, :last_updated_by_id => @u.id, :for_which => 'project_status')
         get 'index' , {:for_which => 'project_status', :subaction => 'project_status'}
         #expect(response).to be_success
@@ -52,7 +51,6 @@ module TwoTierDefinitionx
         :sql_code => "TwoTierDefinitionx::Definition.where(:active => true).order('ranking_index')")
         session[:employee] = true
         session[:user_id] = @u.id
-        session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
         ls = FactoryGirl.create(:two_tier_definitionx_definition, :active => true, :last_updated_by_id => @u.id, :for_which => 'task_status')
         get 'index' , {:for_which => nil, :subaction => 'task_status'}
         expect(response).to redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=NO Subaction in Definition!") 
@@ -66,7 +64,6 @@ module TwoTierDefinitionx
         :sql_code => "")
         session[:employee] = true
         session[:user_id] = @u.id
-        session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
         get 'new', {:for_which => 'project_status', :subaction => 'project_status'}
         expect(response).to be_success
       end
@@ -76,7 +73,6 @@ module TwoTierDefinitionx
         :sql_code => "")
         session[:employee] = true
         session[:user_id] = @u.id
-        session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
         get 'new', {:for_which => 'task_status', :subaction => 'task_status'}
         expect(response).to be_success
       end
@@ -89,7 +85,6 @@ module TwoTierDefinitionx
         :sql_code => "")
         session[:employee] = true
         session[:user_id] = @u.id
-        session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
         session[:subaction] = 'project_status'
         sub = FactoryGirl.attributes_for(:two_tier_definitionx_sub_definition)
         qs = FactoryGirl.attributes_for(:two_tier_definitionx_definition, :for_which => 'project_status', :sub_definitions_attributes => [sub])
@@ -102,7 +97,6 @@ module TwoTierDefinitionx
         :sql_code => "")
         session[:employee] = true
         session[:user_id] = @u.id
-        session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
         session[:subaction] = 'task_status'
         sub = FactoryGirl.attributes_for(:two_tier_definitionx_sub_definition)
         qs = FactoryGirl.attributes_for(:two_tier_definitionx_definition, :for_which => 'task_status', :sub_definitions_attributes => [sub])
@@ -115,7 +109,6 @@ module TwoTierDefinitionx
         :sql_code => "")
         session[:employee] = true
         session[:user_id] = @u.id
-        session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
         session[:subaction] = 'project_status'
         sub = FactoryGirl.attributes_for(:two_tier_definitionx_sub_definition)
         qs = FactoryGirl.attributes_for(:two_tier_definitionx_definition, :name => nil, :for_which => 'project_status', :sub_definitions_attributes => [sub])
@@ -131,7 +124,6 @@ module TwoTierDefinitionx
         :sql_code => "")
         session[:employee] = true
         session[:user_id] = @u.id
-        session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
         qs = FactoryGirl.create(:two_tier_definitionx_definition, :for_which => 'project_status')
         get 'edit', {:id => qs.id, :for_which => 'project_status', :subaction => 'project_status'}
         expect(response).to be_success
@@ -142,7 +134,6 @@ module TwoTierDefinitionx
         :sql_code => "")
         session[:employee] = true
         session[:user_id] = @u.id
-        session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
         qs = FactoryGirl.create(:two_tier_definitionx_definition, :for_which => 'task_status')
         get 'edit', {:id => qs.id, :for_which => 'task_status', :subaction => 'task_status'}
         expect(response).to be_success
@@ -156,7 +147,6 @@ module TwoTierDefinitionx
         :sql_code => "")
         session[:employee] = true
         session[:user_id] = @u.id
-        session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
         session[:subaction] = 'project_status'
         qs = FactoryGirl.create(:two_tier_definitionx_definition, :for_which => 'project_status')
         get 'update', {:id => qs.id, :definition => {:name => 'newnew name'}, :for_which => 'project_status'}
@@ -168,7 +158,6 @@ module TwoTierDefinitionx
         :sql_code => "")
         session[:employee] = true
         session[:user_id] = @u.id
-        session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
         session[:subaction] = 'task_status'
         qs = FactoryGirl.create(:two_tier_definitionx_definition, :for_which => 'task_status')
         get 'update', {:id => qs.id, :definition => {:name => 'newnew name'}, :for_which => 'task_status'}
@@ -180,7 +169,6 @@ module TwoTierDefinitionx
         :sql_code => "")
         session[:employee] = true
         session[:user_id] = @u.id
-        session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
         session[:subaction] = 'task_status'
         qs = FactoryGirl.create(:two_tier_definitionx_definition, :for_which => 'task_status')
         get 'update', {:id => qs.id, :definition => {:name => ''}, :for_which => 'task_status', :subaction => 'task_status'}
@@ -194,7 +182,6 @@ module TwoTierDefinitionx
         :sql_code => "")
         session[:employee] = true
         session[:user_id] = @u.id
-        session[:user_privilege] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id)
         session[:subaction] = 'task_status'
         qs = FactoryGirl.create(:two_tier_definitionx_definition, :for_which => 'task_status')
         get 'show', {:id => qs.id, :subaction => 'task_status'}

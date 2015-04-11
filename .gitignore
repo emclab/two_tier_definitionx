@@ -8,3 +8,6 @@ test/dummy/.sass-cache
 *.class
 *.pyc
 *.pyo
+spec/dummy/db/test.sqlite3
+spec/dummy/db/schema.rb
+spec/dummy/db/development.sqlite3
