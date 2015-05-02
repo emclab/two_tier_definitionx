@@ -1,13 +1,14 @@
 module TwoTierDefinitionx
   class Definition < ActiveRecord::Base
     attr_accessor :active_noupdate
+=begin
     attr_accessible :active, :brief_note, :for_which, :last_updated_by_id, :name, :ranking_index, :sub_definitions_attributes,
                     :active_noupdate,
                     :as => :role_new
     attr_accessible :active, :brief_note, :for_which, :last_updated_by_id, :name, :ranking_index, :sub_definitions_attributes,
                     :active_noupdate,
                     :as => :role_update
-    
+=end
     belongs_to :last_updated_by, :class_name => 'Authentify::User'
     has_many :sub_definitions, :class_name => 'TwoTierDefinitionx::SubDefinition'
     accepts_nested_attributes_for :sub_definitions, :allow_destroy => true

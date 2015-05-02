@@ -22,7 +22,7 @@ module TwoTierDefinitionx
     end
   
     def create
-      @definition = TwoTierDefinitionx::Definition.new(params[:definition], :as => :role_new)
+      @definition = TwoTierDefinitionx::Definition.new(new_params)
       @definition.last_updated_by_id = session[:user_id]
       if @definition.save
         redirect_to definitions_path(:for_which => @definition.for_which, :subaction => @definition.for_which), :notice => t("Definition Saved!")
@@ -45,7 +45,7 @@ module TwoTierDefinitionx
     def update
       @definition = TwoTierDefinitionx::Definition.find(params[:id])
       @definition.last_updated_by_id = session[:user_id]
-      if @definition.update_attributes(params[:definition], :as => :role_update)
+      if @definition.update_attributes(edit_params)
         redirect_to definitions_path(:for_which => @definition.for_which, :subaction => @definition.for_which), :notice => t("Definition Updated!")
       else
         @for_which = TwoTierDefinitionx::Definition.find(params[:id]).for_which
@@ -70,6 +70,18 @@ module TwoTierDefinitionx
       if @for_which.blank?
         redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=NO Subaction in Definition!") 
       end
+    end
+    
+    private
+    
+    def new_params
+      params.require(:definition).permit(:active, :brief_note, :for_which, :last_updated_by_id, :name, :ranking_index, 
+                                         :sub_definitions_attributes => [:name, :ranking_index, :brief_note, :id, :_destroy])
+    end
+    
+    def edit_params
+      params.require(:definition).permit(:active, :brief_note, :for_which, :last_updated_by_id, :name, :ranking_index, 
+                                         :sub_definitions_attributes => [:name, :ranking_index, :active, :brief_note, :id, :_destroy])
     end
   end
 end

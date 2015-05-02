@@ -1,14 +1,15 @@
 module TwoTierDefinitionx
   class SubDefinition < ActiveRecord::Base
     attr_accessor :active_noupdate
-    
+
+=begin    
     attr_accessible :active, :brief_note, :definition_id, :name, :ranking_index, 
                     :active_noupdate,
                     :as => :role_new
     attr_accessible :active, :brief_note, :definition_id, :name, :ranking_index, 
                     :active_noupdate,
                     :as => :role_update
-    
+=end
     belongs_to :definition, :class_name => 'TwoTierDefinitionx::Definition'
     
     validates :name, :presence => true,
