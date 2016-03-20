@@ -21,6 +21,7 @@ module TwoTierDefinitionx
       @u = FactoryGirl.create(:user, :user_levels => [ul], :user_roles => [ur])
        
       session[:user_role_ids] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id).user_role_ids
+      session[:fort_token] = @u.fort_token
     end
     
     describe "GET 'index'" do

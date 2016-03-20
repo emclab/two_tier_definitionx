@@ -6,7 +6,7 @@ class CreateSysModules < ActiveRecord::Migration
       t.string :module_group_name
       t.timestamps
       t.string :brief_note
-      
+      t.string :fort_token
     end
     
     add_index :authentify_sys_modules, :module_group_name

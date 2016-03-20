@@ -5,5 +5,6 @@ FactoryGirl.define do
     user_id                 1
     user_ip                 '1.2.3.4'
     action_logged           'create a new user in FactoryGirl'
+    fort_token '123456789'
   end
 end

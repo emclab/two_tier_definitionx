@@ -15,5 +15,6 @@ FactoryGirl.define do
     allow_email false
     allow_text_msg false
     customer_id 1
+    fort_token '123456789'
   end
 end
