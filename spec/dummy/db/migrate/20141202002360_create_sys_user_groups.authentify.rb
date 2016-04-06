@@ -8,9 +8,9 @@ class CreateSysUserGroups < ActiveRecord::Migration
       #t.string :user_type_desp   #employee, customer, etc.
       t.integer :zone_id    #user location. ex, hq - head quarter.
       t.integer :group_type_id
-      t.integer :manager_group_id
-        
+      t.integer :manager_group_id        
       t.timestamps
+      t.string :fort_token
     end
     
     add_index :authentify_sys_user_groups, :zone_id

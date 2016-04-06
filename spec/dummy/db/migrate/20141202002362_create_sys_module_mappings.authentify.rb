@@ -6,7 +6,7 @@ class CreateSysModuleMappings < ActiveRecord::Migration
       t.integer :sys_user_group_id
       t.timestamps
       t.string  :brief_note
-      
+      t.string :fort_token
     end
     
     add_index :authentify_sys_module_mappings, :sys_module_id

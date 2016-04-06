@@ -1,3 +1,3 @@
 module TwoTierDefinitionx
-  VERSION = "02"
+  VERSION = "01"
 end

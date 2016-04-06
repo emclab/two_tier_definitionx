@@ -7,5 +7,6 @@ FactoryGirl.define do
     active false
     brief_note "MyString"
     ranking_index 1
+    fort_token '123456789'
   end
 end

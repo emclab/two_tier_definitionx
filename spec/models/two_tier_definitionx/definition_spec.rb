@@ -12,6 +12,11 @@ module TwoTierDefinitionx
       expect(c).not_to be_valid
     end
     
+    it "should reject nil fort_token" do
+      c = FactoryGirl.build(:two_tier_definitionx_definition, :fort_token => nil)
+      expect(c).not_to be_valid
+    end
+    
     it "should reject nil for which" do
       c = FactoryGirl.build(:two_tier_definitionx_definition, :for_which => nil)
       expect(c).not_to be_valid

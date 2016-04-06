@@ -21,6 +21,8 @@ module TwoTierDefinitionx
       @u = FactoryGirl.create(:user, :user_levels => [ul], :user_roles => [ur])
       
       session[:user_role_ids] = Authentify::UserPrivilegeHelper::UserPrivilege.new(@u.id).user_role_ids
+      
+      session[:fort_token] = @u.fort_token
     end
     
     describe "GET 'index'" do
@@ -53,7 +55,7 @@ module TwoTierDefinitionx
         session[:user_id] = @u.id
         ls = FactoryGirl.create(:two_tier_definitionx_definition, :active => true, :last_updated_by_id => @u.id, :for_which => 'task_status')
         get 'index' , {:for_which => nil, :subaction => 'task_status'}
-        expect(response).to redirect_to URI.escape(SUBURI + "/authentify/view_handler?index=0&msg=NO Subaction in Definition!") 
+        expect(response).to redirect_to URI.escape(SUBURI + "/view_handler?index=0&msg=NO Subaction in Definition!") 
       end
       
     end
