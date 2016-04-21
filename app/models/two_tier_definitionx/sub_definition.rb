@@ -10,6 +10,8 @@ module TwoTierDefinitionx
     validates :fort_token, :presence => true
     validate :dynamic_validate 
     
+    default_scope {where(fort_token: Thread.current[:fort_token])}
+    
     def dynamic_validate
       wf = Authentify::AuthentifyUtility.find_config_const('dynamic_validate_sub_definition', self.fort_token, 'two_tier_definitionx')
       eval(wf) if wf.present?

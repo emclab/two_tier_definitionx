@@ -11,6 +11,8 @@ module TwoTierDefinitionx
                      :uniqueness => {:scope => :for_which, :case_sensitive => false, :message => I18n.t('Duplicate Name!')}
     validate :dynamic_validate 
     
+    default_scope {where(fort_token: Thread.current[:fort_token])}
+    
     def dynamic_validate
       wf = Authentify::AuthentifyUtility.find_config_const('dynamic_validate_definition', self.fort_token, 'two_tier_definitionx')
       eval(wf) if wf.present?
