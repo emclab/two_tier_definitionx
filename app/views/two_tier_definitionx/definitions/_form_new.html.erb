@@ -1,10 +1,25 @@
-<% if  @erb_code %>
+<% if @erb_code %>
   <%= render inline: @erb_code %>
   
 <% else %>
-<h4><%=@title %></h4>
 
-<%= simple_form_for @definition do |f| %>    
+<div class="container">
+  <div class="page-header clearfix">
+    <div class="pull-left">
+    <h2><%=@title%></h2>
+    </div>
+  </div>
+
+<%= simple_form_for @definition , html: { class: 'form-horizontal col-sm-' + BUTTONS_CLS['form-span#'] },
+    wrapper: :horizontal_form,
+    wrapper_mappings: {
+    check_boxes: :horizontal_radio_and_checkboxes,
+    radio_buttons: :horizontal_radio_and_checkboxes,
+    file: :horizontal_file_input,
+    boolean: :horizontal_boolean
+  } do |f| %>
+  
+    <div class="form-inputs">    
 
   <%= f.input :name, :label => t(@for_which.sub('_', ' ').titleize + ':') %>
   <%= f.input :brief_note, :label => t("Brief Note:") %> 
@@ -13,11 +28,15 @@
   <b><%=t('Sub Definition')%></b>
   <p><%= link_to_add_fields t("Add Sub Definition"), f, :sub_definitions %></p>
   
-  <%= link_to t('Back'), definitions_path(:for_which => @for_which, :subaction => @for_which), :class => BUTTONS_CLS['action'] %>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        
+    <div class="btn-toolbar" >
+  <%= link_to t('Back'), definitions_path(:for_which => @for_which, :subaction => @for_which), :class => BUTTONS_CLS['action'] %>   
   <%= f.button :submit, I18n.t('Save'), :class => BUTTONS_CLS['action'] %>  
-  
-  
+    </div> 
+
+  </div>
+ 
 <% end %>
+
+</div>
 
 <% end %>

@@ -8,7 +8,7 @@ module TwoTierDefinitionx
     
     validates :for_which, :fort_token, :presence => true
     validates :name, :presence => true,
-                     :uniqueness => {:scope => :for_which, :case_sensitive => false, :message => I18n.t('Duplicate Name!')}
+                     :uniqueness => {:scope => [:for_which, :fort_token], :case_sensitive => false, :message => I18n.t('Duplicate Name!')}
     validate :dynamic_validate 
     
     default_scope {where(fort_token: Thread.current[:fort_token])}
