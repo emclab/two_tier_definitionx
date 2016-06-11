@@ -4,6 +4,7 @@ module TwoTierDefinitionx
   class DefinitionsController < ApplicationController
     #before_filter :require_employee
     before_filter :load_for_which, :only => [:index, :new, :edit, :show] 
+    after_action :info_logger, :except => [:new, :edit, :event_action_result, :wf_edit_result, :search_results, :stats_results, :acct_summary_result]
     
     def index
       @title = @for_which.sub('_', ' ').pluralize.titleize  #ex, Quality Systems

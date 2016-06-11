@@ -3,6 +3,7 @@ require_dependency "two_tier_definitionx/application_controller"
 module TwoTierDefinitionx
   class SubDefinitionsController < ApplicationController
     before_filter :load_record
+    after_action :info_logger, :except => [:new, :edit, :event_action_result, :wf_edit_result, :search_results, :stats_results, :acct_summary_result]
     
     def index
       @title = I18n.t(@definition.for_which.titleize) + ' - ' + I18n.t('Sub Definitions') #ex, Quality System - Sub Definitions

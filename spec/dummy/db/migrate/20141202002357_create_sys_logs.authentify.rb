@@ -8,6 +8,7 @@ class CreateSysLogs < ActiveRecord::Migration
       t.string :user_ip
       t.string :action_logged
       t.string :fort_token
+      t.string :resource
     end
     
     add_index :authentify_sys_logs, :user_id

@@ -56,6 +56,9 @@ RSpec.describe "LinkTests", type: :request do
       qs = FactoryGirl.create(:two_tier_definitionx_definition, :active => true, :sub_definitions=> [sub], :last_updated_by_id => @u.id, :for_which => 'project_status')      
       #show
       visit two_tier_definitionx.definitions_path(for_which: 'project_status', subaction: 'project_status')
+      expect(Authentify::SysLog.all.count).to eq(1)
+      expect(Authentify::SysLog.all.first.resource).to eq('two_tier_definitionx/definitions')
+      expect(Authentify::SysLog.all.first.user_id).to eq(@u.id)
       click_link qs.name
       expect(page).to have_content('Project Status Info')
       #sub definitions
