@@ -1,0 +1,26 @@
+
+<%= simple_form_for @sub_definition, html: { class: 'form-horizontal col-sm-' + BUTTONS_CLS['form-span#'] },
+    wrapper: :horizontal_form,
+    wrapper_mappings: {
+    check_boxes: :horizontal_radio_and_checkboxes,
+    radio_buttons: :horizontal_radio_and_checkboxes,
+    file: :horizontal_file_input,
+    boolean: :horizontal_boolean
+  } do |f| %>
+  
+  <div class="form-inputs"> 
+  	<%= f.input :name, :label => t('Name') %>
+    <%= f.input :active, :as => :hidden, input_html: {value: true} %>
+    <%= f.input :ranking_index, :label => t("Ranking Index") %> 
+    <%= f.input :brief_note, :label => t("Brief Note")%>
+    <%= f.input :definition_id, required: true, as: :hidden, input_html: {value: @definition.id}%>
+  
+    <div class="btn-toolbar" >
+      <%= link_to t('Back'), sub_definitions_path(definition_id: @definition.id, subaction: @definition.for_which), :class => BUTTONS_CLS['action'] %>   
+      <%= f.button :submit, I18n.t('Save'), :class => BUTTONS_CLS['action'] %>  
+    </div>     
+    
+  </div>
+ 
+<% end %>
+

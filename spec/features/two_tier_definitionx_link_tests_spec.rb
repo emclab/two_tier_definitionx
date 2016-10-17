@@ -19,7 +19,11 @@ RSpec.describe "LinkTests", type: :request do
          'inverse'      => 'btn btn-inverse',
          'mini-inverse' => mini_btn + 'btn btn-inverse',
          'link'         => 'btn btn-link',
-         'mini-link'    => mini_btn +  'btn btn-link'
+         'mini-link'    => mini_btn +  'btn btn-link',
+         'right-span#'         => '2', 
+                 'left-span#'         => '6', 
+                 'offset#'         => '2',
+                 'form-span#'         => '4'
         }
     before(:each) do
       config_entry = FactoryGirl.create(:engine_config, :engine_name => 'rails_app', :engine_version => nil, :argument_name => 'SESSION_TIMEOUT_MINUTES', :argument_value => 30)
@@ -41,6 +45,10 @@ RSpec.describe "LinkTests", type: :request do
       user_access = FactoryGirl.create(:user_access, :action => 'create_project_status', :resource =>'two_tier_definitionx_definitions', :role_definition_id => @role.id, :rank => 1,
         :sql_code => "")
       user_access = FactoryGirl.create(:user_access, :action => 'update_project_status', :resource =>'two_tier_definitionx_definitions', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "")
+      user_access = FactoryGirl.create(:user_access, :action => 'create_project_status', :resource =>'two_tier_definitionx_sub_definitions', :role_definition_id => @role.id, :rank => 1,
+        :sql_code => "")
+      user_access = FactoryGirl.create(:user_access, :action => 'update_project_status', :resource =>'two_tier_definitionx_sub_definitions', :role_definition_id => @role.id, :rank => 1,
         :sql_code => "")
       user_access = FactoryGirl.create(:user_access, :action => 'show_project_status', :resource =>'two_tier_definitionx_definitions', :role_definition_id => @role.id, :rank => 1,
         :sql_code => "record.last_updated_by_id == session[:user_id]")
@@ -90,7 +98,6 @@ RSpec.describe "LinkTests", type: :request do
       expect(page).to have_content('Project Status')
       click_link 'New Project Status'
       expect(page).to have_content('New Project Status')
-      save_and_open_page
       fill_in :definition_name, :with => 'create new name'
       click_button 'Save'
       visit two_tier_definitionx.definitions_path(for_which: 'project_status', subaction: 'project_status')
@@ -104,6 +111,21 @@ RSpec.describe "LinkTests", type: :request do
       visit two_tier_definitionx.definitions_path(for_which: 'project_status', subaction: 'project_status')
       expect(page).not_to have_content 'create bad input'
       
+    end
+    
+    it "should work with sub definition" do
+      sub = FactoryGirl.create(:two_tier_definitionx_sub_definition)
+      qs = FactoryGirl.create(:two_tier_definitionx_definition, :active => true, :sub_definitions=> [sub], :last_updated_by_id => @u.id, :for_which => 'project_status')      
+      visit two_tier_definitionx.definitions_path(for_which: 'project_status', subaction: 'project_status')
+      click_link 'Sub Definitions'
+      save_and_open_page
+      click_link 'New Sub Category'
+      save_and_open_page
+      #
+      #update
+      visit two_tier_definitionx.definitions_path(for_which: 'project_status', subaction: 'project_status')
+      click_link 'Edit'
+      save_and_open_page
     end
   end
 end

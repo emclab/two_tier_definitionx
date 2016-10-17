@@ -1,5 +1,5 @@
 TwoTierDefinitionx::Engine.routes.draw do
   resources :definitions
-  resources :sub_definitions, :only => [:index]
+  resources :sub_definitions
   root :to => 'definitions#index'
 end

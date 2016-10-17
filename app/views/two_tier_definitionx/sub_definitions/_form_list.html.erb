@@ -20,6 +20,8 @@
           <td><%= qs.brief_note %></td>
           <td><%= qs.ranking_index %></td>
           <td><%= qs.active ? t('Yes') : t('No') %></td>
+          <td><%= link_to t('Edit'), edit_sub_definition_path(qs, :subaction => session[:subaction], :definition_id => qs.definition_id, format: :js), 
+                  remote: true, :class => BUTTONS_CLS['action'] if has_action_right?('update_' + @definition.for_which, 'two_tier_definitionx/definitions', qs) %></td>
         </tr>
     <% end %>
 
@@ -29,7 +31,8 @@
 	  <tr>
 	    <th>
 	    	<%= link_to t('Back'), SUBURI + "/view_handler?index=0", :id => 'close', :class => BUTTONS_CLS['action'] %>
-	    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   
+	    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	    	<%= link_to t("New Sub Category"), new_sub_definition_path(:definition_id => @definition.id, subaction: @definition.for_which, :format => :js), :remote => true, id: 'new_sub', :class => BUTTONS_CLS['action'] if @definition && has_action_right?('create_' + @definition.for_which, 'two_tier_definitionx/definitions') %>   
 		</th>
 	  </tr>
 	</table>

@@ -19,11 +19,16 @@ class CreateUsers < ActiveRecord::Migration
       t.boolean :allow_email, :default => false
       t.integer :customer_id
       t.string :local
+      t.date :last_time_password_changed
+      t.text :previous_passwords
+      t.boolean :remember_me, default: false
       t.string :fort_token
+      t.text :current_sessions
     end
     
     add_index :authentify_users, :name
     add_index :authentify_users, :email
+    add_index :authentify_users, :fort_token
     add_index :authentify_users, :status
     add_index :authentify_users, :allow_text_msg
     add_index :authentify_users, :allow_email
