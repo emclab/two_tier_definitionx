@@ -41,8 +41,8 @@ module TwoTierDefinitionx
     def edit
       @title = "Update " + @for_which.sub('_', ' ').titleize
       @definition = TwoTierDefinitionx::Definition.find(params[:id])
-      @erb_code = find_config_const('definition_update_view', session[:fort_token], 'two_tier_definitionx')  
-      @erb_code_field = find_config_const('definition_new_view_field', 'two_tier_definitionx') 
+      @erb_code = find_config_const('definition_edit_view', session[:fort_token], 'two_tier_definitionx')  
+      @erb_code_field = find_config_const('definition_new_view_field', session[:fort_token], 'two_tier_definitionx') 
     end
   
     def update
@@ -52,8 +52,8 @@ module TwoTierDefinitionx
         redirect_to definitions_path(:for_which => @definition.for_which, :subaction => @definition.for_which), :notice => t("Definition Updated!")
       else
         @for_which = TwoTierDefinitionx::Definition.find(params[:id]).for_which
-        @erb_code = find_config_const('definition_update_view', 'two_tier_definitionx')  
-        @erb_code_field = find_config_const('definition_new_view_field', 'two_tier_definitionx')   
+        @erb_code = find_config_const('definition_update_view', session[:fort_token], 'two_tier_definitionx')  
+        @erb_code_field = find_config_const('definition_new_view_field', session[:fort_token], 'two_tier_definitionx')   
         flash.now[:error] = t('Data Error. Not Updated!')
         render 'edit'
       end
@@ -62,7 +62,7 @@ module TwoTierDefinitionx
     def show
       @title = t(@for_which.sub('_', ' ').titleize + ' Info')
       @definition = TwoTierDefinitionx::Definition.find(params[:id])
-      @erb_code = find_config_const('definition_show_view', 'two_tier_definitionx')  
+      @erb_code = find_config_const('definition_show_view', session[:fort_token], 'two_tier_definitionx')  
     end
   
     protected

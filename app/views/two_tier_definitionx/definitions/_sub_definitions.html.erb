@@ -2,14 +2,39 @@
   <%= render inline: ERB.new(@erb_code_field).result(binding) %>
   
 <% else %>
-<div class="fields">
-	
-  <%= f.input :name, :label => t('Name') %>
-  <%= f.input :active, :label => t("Active"), :collection => [[t('Yes'), true], [t('No'), false]] %>
-  <%= f.input :ranking_index, :label => t("Ranking Index") %> 
-  <%= f.input :brief_note, :label => t("Brief Note")%>
-
+    <div class="fields">     
+        <div class="row">		  
+         <div class="col-md-6">
+		  <div class="row">
+			<div class="col-sm-12 ">
+				<%= f.input :name, :label => t('Name') %>
+			</div>
+		  </div>		
+	    </div>		
+	    <div class="col-md-6">
+		  <div class="row">
+			<div class="col-sm-12">
+				<%= f.input :ranking_index, :label => t('Ranking Index'), :placehoder => '1, 2, 3 ...'%>
+			</div>
+		  </div>			
+	     </div>		
+        </div> 
+ 	    <div class="row">
+          <div class="col-md-6">
+		   <div class="row">
+			<div class="col-sm-12">
+				<%= f.input :active, :label => t("Active"), :collection => [[t('Yes'), true], [t('No'), false]], selected: true %>
+			</div>
+		  </div>		
+        </div>
+        <div class="col-md-6">
+		  <div class="row">
+			<div class="col-sm-12">
+				<%= f.input :brief_note, :label => t("Brief Note:"), :input_html => {:rows => 2} %>	
+			</div>
+		  </div>			
+	     </div>	
+     </div> 
   <%= link_to_remove_fields t("Delete Sub Definition"), f %>
-</div>
 
 <% end %>

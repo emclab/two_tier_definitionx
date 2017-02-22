@@ -15,3 +15,5 @@ spec/dummy/log/development.log
 spec/dummy/log/test.log
 spec/dummy/log/development.log
 spec/dummy/log/test.log
+spec/dummy/log/development.log
+spec/dummy/log/test.log
