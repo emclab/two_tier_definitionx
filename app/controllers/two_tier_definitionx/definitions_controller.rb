@@ -7,7 +7,7 @@ module TwoTierDefinitionx
     after_action :info_logger, :except => [:new, :edit, :event_action_result, :wf_edit_result, :search_results, :stats_results, :acct_summary_result]
     
     def index
-      @title = @for_which.sub('_', ' ').pluralize.titleize  #ex, Quality Systems
+      @title = t(@for_which.sub('_', ' ').pluralize.titleize)  #ex, Quality Systems
       @definitions = params[:two_tier_definitionx_definitions][:model_ar_r]
       @definitions = @definitions.where(:for_which => @for_which)
       @definitions = @definitions.page(params[:page]).per_page(@max_pagination).order('ranking_index')
@@ -15,7 +15,7 @@ module TwoTierDefinitionx
     end
   
     def new
-      @title = "New " + @for_which.sub('_', ' ').titleize  #ex, New Quality System
+      @title = t("New " + @for_which.sub('_', ' ').titleize)  #ex, New Quality System
       @definition = TwoTierDefinitionx::Definition.new()
       @definition.sub_definitions.build
       @erb_code = find_config_const('definition_new_view', session[:fort_token], 'two_tier_definitionx')  
@@ -39,7 +39,7 @@ module TwoTierDefinitionx
     end
   
     def edit
-      @title = "Update " + @for_which.sub('_', ' ').titleize
+      @title = t("Update " + @for_which.sub('_', ' ').titleize)
       @definition = TwoTierDefinitionx::Definition.find(params[:id])
       @erb_code = find_config_const('definition_edit_view', session[:fort_token], 'two_tier_definitionx')  
       @erb_code_field = find_config_const('definition_new_view_field', session[:fort_token], 'two_tier_definitionx') 
